@@ -5,3 +5,10 @@
 
 ## Mac
 `brew install opencv`
+
+# Compile and run
+```
+export OpenCV_DIR=opencv
+cmake .
+make
+```
