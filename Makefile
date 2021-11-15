@@ -153,6 +153,30 @@ src/capture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/capture.cpp.s
 .PHONY : src/capture.cpp.s
 
+src/process.o: src/process.cpp.o
+.PHONY : src/process.o
+
+# target to build an object file
+src/process.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/process.cpp.o
+.PHONY : src/process.cpp.o
+
+src/process.i: src/process.cpp.i
+.PHONY : src/process.i
+
+# target to preprocess a source file
+src/process.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/process.cpp.i
+.PHONY : src/process.cpp.i
+
+src/process.s: src/process.cpp.s
+.PHONY : src/process.s
+
+# target to generate assembly for a file
+src/process.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/process.cpp.s
+.PHONY : src/process.cpp.s
+
 src/run.o: src/run.cpp.o
 .PHONY : src/run.o
 
@@ -189,6 +213,9 @@ help:
 	@echo "... src/capture.o"
 	@echo "... src/capture.i"
 	@echo "... src/capture.s"
+	@echo "... src/process.o"
+	@echo "... src/process.i"
+	@echo "... src/process.s"
 	@echo "... src/run.o"
 	@echo "... src/run.i"
 	@echo "... src/run.s"
