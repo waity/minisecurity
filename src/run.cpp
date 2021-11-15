@@ -1,16 +1,17 @@
 #include <iostream>
 #include <cstring>
 #include <time.h>
+#include "capture.h"
 #include "opencv2/opencv.hpp"
 
 using namespace std;
 using namespace cv;
 
 int main(int argc, char* argv[]) {
-  VideoCapture cap("rtsp://admin:123456@192.168.1.101:554/h264"); 
+  Capture cap("rtsp://admin:123456@192.168.1.101:554/h264"); 
   // VideoCapture cap(0); 
    
-  if(!cap.isOpened()){
+  if(!cap.getCap().isOpened()){
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
       break;
     }
     Mat frame;
-    cap >> frame;
+    cap.getCap() >> frame;
     if (frame.empty())
       break;
     imshow( "Frame", frame );
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]) {
       break;
   }
  
-  cap.release();
+  cap.getCap().release();
   destroyAllWindows();
 	
   return 0;

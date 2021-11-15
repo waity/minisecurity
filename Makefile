@@ -129,6 +129,30 @@ run/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/build
 .PHONY : run/fast
 
+src/capture.o: src/capture.cpp.o
+.PHONY : src/capture.o
+
+# target to build an object file
+src/capture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/capture.cpp.o
+.PHONY : src/capture.cpp.o
+
+src/capture.i: src/capture.cpp.i
+.PHONY : src/capture.i
+
+# target to preprocess a source file
+src/capture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/capture.cpp.i
+.PHONY : src/capture.cpp.i
+
+src/capture.s: src/capture.cpp.s
+.PHONY : src/capture.s
+
+# target to generate assembly for a file
+src/capture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/capture.cpp.s
+.PHONY : src/capture.cpp.s
+
 src/run.o: src/run.cpp.o
 .PHONY : src/run.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... run"
+	@echo "... src/capture.o"
+	@echo "... src/capture.i"
+	@echo "... src/capture.s"
 	@echo "... src/run.o"
 	@echo "... src/run.i"
 	@echo "... src/run.s"

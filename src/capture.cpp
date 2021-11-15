@@ -1,11 +1,16 @@
 #include "capture.h"
+#include "opencv2/opencv.hpp"
 
-void Capture::setType(std::string sType)
+using namespace std;
+using namespace cv;
+
+Capture::Capture(std::string _name)
 {
-    myType = sType;
+    name = _name;
+    cap = new VideoCapture(name);
 }
 
-std::string Capture::getType()
+VideoCapture Capture::getCap()
 {
-    return myType;
-} 
+    return *cap;
+}
