@@ -10,4 +10,3 @@ cmake  ../opencv-master
 # Build
 cmake --build .
 rm opencv.zip
-rm -rf opencv-master
