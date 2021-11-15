@@ -1,9 +1,0 @@
-{
-  "files.associations": {
-    "valarray": "cpp",
-    "iosfwd": "cpp",
-    "filesystem": "cpp",
-    "queue": "cpp",
-    "stack": "cpp"
-  }
-}
