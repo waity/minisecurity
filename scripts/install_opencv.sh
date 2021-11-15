@@ -9,4 +9,3 @@ mkdir -p build && cd build
 cmake  ../opencv-master
 # Build
 cmake --build .
-rm opencv.zip
