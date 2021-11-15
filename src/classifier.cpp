@@ -17,15 +17,16 @@ Classifier::Classifier() {
   output_names = net.getUnconnectedOutLayersNames();
 }
 
-cv::Mat Classifier::get_objects(cv::Mat in) 
+bool Classifier::detect_person(cv::Mat in) 
 {
   int num_classes = output_names.size();
   cv::Mat resized;
   std::vector<cv::Mat> detections;
   cv::Mat blob = cv::dnn::blobFromImage(in, 1/255.0, cv::Size(416, 416), cv::Scalar(), true, true);
   net.setInput(blob);
-
   net.forward(detections, output_names);
+
+  float confidence_threshold = 0.2;
 
   std::vector<int> indices[num_classes];
   std::vector<cv::Rect> boxes[num_classes];
@@ -41,12 +42,12 @@ cv::Mat Classifier::get_objects(cv::Mat in)
       cv::Rect rect(x - width/2, y - height/2, width, height);
       for (int c = 0; c < num_classes; c++) {
           auto confidence = *output.ptr<float>(i, 5 + c);
-          if (confidence >= 0.1) {
-              std::cout << class_names[c] << "\n";
+          if ( confidence >= confidence_threshold && class_names[c] == "person" ) {
+            return true;
           }
       }
     }
   }
 
-  return in;
+  return false;
 }

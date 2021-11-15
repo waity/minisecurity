@@ -35,7 +35,9 @@ int main(int argc, char* argv[]) {
 
     diff = diff_image(frame, previous);
     bool movement = detect_movement(diff);
-    classifier.get_objects(frame);
+    if ( classifier.detect_person(frame) ) {
+      std::cout << "person detected\n";
+    }
 
     previous = frame.clone();
 
