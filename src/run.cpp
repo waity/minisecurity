@@ -8,6 +8,7 @@ using namespace std;
 using namespace cv;
 
 bool DEBUG = true;
+bool PI = false;
 
 int main(int argc, char* argv[]) {
   Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
@@ -18,7 +19,6 @@ int main(int argc, char* argv[]) {
   }
 
   Mat previous;
-  int i;
 	
   while (1) {
     Mat frame, diff;
@@ -27,26 +27,31 @@ int main(int argc, char* argv[]) {
       continue;
     }
 
-    cout << i << " frame" << std::endl;
-    i += 1;
-
     if ( previous.empty() ) {
       previous = frame.clone();
       continue;
     }
 
-    // frame = gray_and_blur(frame);
     diff = diff_image(frame, previous);
+    bool movement = detect_movement(diff);
 
-    int down_width = 300;
-    int down_height = 200;
-    Mat resized_down;
+    previous = frame.clone();
+
+    if ( PI ) {
+      int down_width = 300;
+      int down_height = 200;
+      Mat resized_down;
+      cv::resize(diff, resized_down, Size(down_width, down_height), INTER_LINEAR);
+      frame = resized_down;
+    }
+    
+    if (movement)
+    cv::putText(frame,"movement",cv::Point(50,50),cv::FONT_HERSHEY_DUPLEX,1,cv::Scalar(0,255,0),2,false);
+
     //resize down
-    cv::resize(diff, resized_down, Size(down_width, down_height), INTER_LINEAR);
     if (DEBUG)
-      imshow( "Frame", resized_down );
+      imshow( "Frame", frame );
 
-    previous = frame;
     char c=(char)waitKey(25);
     if(c==27)
       break;
