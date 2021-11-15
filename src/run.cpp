@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <time.h>
 #include "opencv2/opencv.hpp"
 
 using namespace std;
@@ -13,8 +14,14 @@ int main(int argc, char* argv[]) {
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
+
+  float start = clock();
 	
   while(1){
+    float now = clock();
+    if ( ((now - start) / CLOCKS_PER_SEC) > 15 ) {
+      break;
+    }
     Mat frame;
     cap >> frame;
     if (frame.empty())
