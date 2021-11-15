@@ -7,7 +7,8 @@ cv::Mat gray_and_blur(cv::Mat in) {
   cv::Size size = cv::Size(99,99);
 
   cv::cvtColor(in, gray, cv::COLOR_BGR2GRAY);
-  cv::GaussianBlur(gray, blur, size, 25, 0);
+  cv::blur(gray, blur, size);
+  
   return blur;
 }
 

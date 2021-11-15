@@ -14,6 +14,7 @@ class Capture {
     std::string name;
     VideoCapture* cap;
     std::thread worker;
+    bool newFrame;
   public:
     Capture(std::string);
     Mat getFrame();

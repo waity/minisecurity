@@ -11,6 +11,7 @@ most recent frame.
 */
 Capture::Capture(std::string _name)
 {
+    newFrame = false;
     name = _name;
     cap = new VideoCapture(name);
     worker = std::thread{&Capture::work, this};
@@ -19,7 +20,12 @@ Capture::Capture(std::string _name)
 Mat Capture::getFrame()
 {
     Mat mat;
+    if ( !newFrame ) {
+        return mat;
+    }
+
     cap->retrieve(mat);
+    newFrame = false;
     return mat;
 }
 
@@ -36,6 +42,8 @@ void Capture::release()
 void Capture::work()
 {
     while (1) {
-        cap->grab();
+        if ( cap->grab() ) {
+            newFrame = true;
+        }
     }
 }

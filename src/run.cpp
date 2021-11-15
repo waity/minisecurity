@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
   }
 
   Mat previous;
+  int i;
 	
   while (1) {
     Mat frame, diff;
@@ -26,19 +27,22 @@ int main(int argc, char* argv[]) {
       continue;
     }
 
+    cout << i << " frame" << std::endl;
+    i += 1;
+
     if ( previous.empty() ) {
       previous = frame.clone();
       continue;
     }
 
-    frame = gray_and_blur(frame);
-    // diff = diff_image(frame, previous);
+    // frame = gray_and_blur(frame);
+    diff = diff_image(frame, previous);
 
     int down_width = 300;
     int down_height = 200;
     Mat resized_down;
     //resize down
-    cv::resize(frame, resized_down, Size(down_width, down_height), INTER_LINEAR);
+    cv::resize(diff, resized_down, Size(down_width, down_height), INTER_LINEAR);
     if (DEBUG)
       imshow( "Frame", resized_down );
 
