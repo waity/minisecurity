@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
   Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
   Classifier classifier;
 
-  if( !capture.isOpened() ){
+  if ( !capture.isOpened() ) {
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
