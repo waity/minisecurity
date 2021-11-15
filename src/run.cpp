@@ -41,14 +41,10 @@ int main(int argc, char* argv[]) {
       int down_width = 300;
       int down_height = 200;
       Mat resized_down;
-      cv::resize(diff, resized_down, Size(down_width, down_height), INTER_LINEAR);
+      cv::resize(frame, resized_down, Size(down_width, down_height), INTER_LINEAR);
       frame = resized_down;
     }
-    
-    if (movement)
-    cv::putText(frame,"movement",cv::Point(50,50),cv::FONT_HERSHEY_DUPLEX,1,cv::Scalar(0,255,0),2,false);
 
-    //resize down
     if (DEBUG)
       imshow( "Frame", frame );
 
