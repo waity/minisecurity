@@ -153,6 +153,30 @@ src/capture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/capture.cpp.s
 .PHONY : src/capture.cpp.s
 
+src/classifier.o: src/classifier.cpp.o
+.PHONY : src/classifier.o
+
+# target to build an object file
+src/classifier.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/classifier.cpp.o
+.PHONY : src/classifier.cpp.o
+
+src/classifier.i: src/classifier.cpp.i
+.PHONY : src/classifier.i
+
+# target to preprocess a source file
+src/classifier.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/classifier.cpp.i
+.PHONY : src/classifier.cpp.i
+
+src/classifier.s: src/classifier.cpp.s
+.PHONY : src/classifier.s
+
+# target to generate assembly for a file
+src/classifier.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/run.dir/build.make CMakeFiles/run.dir/src/classifier.cpp.s
+.PHONY : src/classifier.cpp.s
+
 src/process.o: src/process.cpp.o
 .PHONY : src/process.o
 
@@ -213,6 +237,9 @@ help:
 	@echo "... src/capture.o"
 	@echo "... src/capture.i"
 	@echo "... src/capture.s"
+	@echo "... src/classifier.o"
+	@echo "... src/classifier.i"
+	@echo "... src/classifier.s"
 	@echo "... src/process.o"
 	@echo "... src/process.i"
 	@echo "... src/process.s"

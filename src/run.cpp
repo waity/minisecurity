@@ -3,25 +3,26 @@
 #include <time.h>
 #include "capture.h"
 #include "process.h"
+#include "classifier.h"
 
 using namespace std;
-using namespace cv;
 
 bool DEBUG = true;
 bool PI = false;
 
 int main(int argc, char* argv[]) {
   Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
+  Classifier classifier;
 
   if( !capture.isOpened() ){
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
 
-  Mat previous;
+  cv::Mat previous;
 	
   while (1) {
-    Mat frame, diff;
+    cv::Mat frame, diff;
     frame = capture.getFrame();
     if ( frame.empty() ) {
       continue;
@@ -34,6 +35,7 @@ int main(int argc, char* argv[]) {
 
     diff = diff_image(frame, previous);
     bool movement = detect_movement(diff);
+    classifier.get_objects(frame);
 
     previous = frame.clone();
 
