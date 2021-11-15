@@ -2,47 +2,53 @@
 #include <cstring>
 #include <time.h>
 #include "capture.h"
-#include "test.h"
+#include "process.h"
 
 using namespace std;
 using namespace cv;
 
-bool DEBUG = false;
+bool DEBUG = true;
 
 int main(int argc, char* argv[]) {
-  Capture cap("rtsp://admin:123456@192.168.1.101:554/h264"); 
-  // VideoCapture cap("rtsp://admin:123456@192.168.1.101:554/h264"); 
-   
-// Check if camera opened successfully
-  if(!cap.isOpened()){
+  Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
+
+  if( !capture.isOpened() ){
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
+
+  Mat previous;
 	
-  while(1){
-
-    Mat frame;
-    // Capture frame-by-frame
-    frame = cap.getFrame();
- 
-    // If the frame is empty, break immediately
-    if (frame.empty())
+  while (1) {
+    Mat frame, diff;
+    frame = capture.getFrame();
+    if ( frame.empty() ) {
       continue;
+    }
 
-    // Display the resulting frame
+    if ( previous.empty() ) {
+      previous = frame.clone();
+      continue;
+    }
+
+    frame = gray_and_blur(frame);
+    // diff = diff_image(frame, previous);
+
+    int down_width = 300;
+    int down_height = 200;
+    Mat resized_down;
+    //resize down
+    cv::resize(frame, resized_down, Size(down_width, down_height), INTER_LINEAR);
     if (DEBUG)
-      imshow( "Frame", frame );
+      imshow( "Frame", resized_down );
 
-    // Press  ESC on keyboard to exit
+    previous = frame;
     char c=(char)waitKey(25);
     if(c==27)
       break;
   }
- 
-  // When everything done, release the video capture object
-  cap.release();
 
-  // Closes all the frames
+  capture.release();
   destroyAllWindows();
 	
   return 0;

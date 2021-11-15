@@ -5,6 +5,10 @@
 using namespace std;
 using namespace cv;
 
+/* 
+Wraps cv::VideoCapture with a thread consuming the stream. Get returns the
+most recent frame.
+*/
 Capture::Capture(std::string _name)
 {
     name = _name;
