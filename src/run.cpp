@@ -7,7 +7,7 @@
 
 using namespace std;
 
-bool DEBUG = true;
+bool DEBUG = false;
 bool PI = false;
 
 int main(int argc, char* argv[]) {
@@ -35,8 +35,11 @@ int main(int argc, char* argv[]) {
 
     diff = diff_image(frame, previous);
     bool movement = detect_movement(diff);
-    if ( classifier.detect_person(frame) ) {
+    if ( movement && classifier.detect_person(frame) ) {
       std::cout << "person detected\n";
+    }
+    else {
+      std::cout << "no person\n";
     }
 
     previous = frame.clone();
