@@ -22,12 +22,12 @@ cv::Mat DVR::tick()
 
   // diff = diff_image(frame, previous);
   // bool movement = detect_movement(diff);
-  // if ( movement && classifier.detect_person(frame) ) {
-  //   std::cout << "person detected\n";
-  // }
-  // else {
-  //   std::cout << "no person\n";
-  // }
+  if ( true && classifier.detect_person(frame) ) {
+    std::cout << "person detected\n";
+  }
+  else {
+    std::cout << "no person\n";
+  }
 
   previous = frame.clone();
   return frame;
