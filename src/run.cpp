@@ -1,15 +1,26 @@
 #include <iostream>
 #include <cstring>
+#include <string>
 #include "capture.h"
 #include "dvr.h"
 #include "classifier.h"
 
 using namespace std;
 
-bool DEBUG = true;
-bool PI = false;
 
 int main(int argc, char* argv[]) {
+  bool DEBUG = false;
+  bool PI = false;
+
+  for ( int i = 1; i < argc; i++ ) {
+    if ( std::strcmp(argv[i], "-debug") == 0 ) {
+      DEBUG = true;
+    }
+    if ( std::strcmp(argv[i], "-pi") == 0 ) {
+      PI = true;
+    }
+  }
+
   Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
   DVR dvr(&capture);
 

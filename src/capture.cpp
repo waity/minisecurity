@@ -25,10 +25,6 @@ Mat Capture::getFrame()
     }
 
     cap->retrieve(mat);
-    if ( mat.empty() ) {
-        delete cap;
-        cap = new VideoCapture(name);
-    }
     newFrame = false;
     return mat;
 }

@@ -5,9 +5,6 @@
 Classifier::Classifier() {
   net = cv::dnn::readNetFromDarknet("yolo/yolov3-tiny.cfg", "yolo/yolov3-tiny.weights");
 
-  net.setPreferableBackend(cv::dnn::DNN_BACKEND_CUDA);
-  net.setPreferableTarget(cv::dnn::DNN_TARGET_CUDA);
-
   std::ifstream ifs(std::string("yolo/coco.names").c_str());
   std::string line;
   while ( std::getline(ifs, line) ) {

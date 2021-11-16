@@ -1,21 +1,21 @@
 #include "dvr.h"
 #include "capture.h"
 #include "process.h"
-#include <thread>
 
 DVR::DVR(Capture *_c) 
 {
   c = _c;
-  classifier_thread = std::thread{&DVR::classify, this};
 }
 
 cv::Mat DVR::tick() 
 {
-  cv::Mat diff;
-  frame = c->getFrame();
-  if ( frame.empty() ) {
-    return diff;
+  cv::Mat diff, pre_frame;
+  pre_frame = c->getFrame();
+  if ( pre_frame.empty() ) {
+    return pre_frame;
   }
+
+  cv::resize(pre_frame, frame, cv::Size(pre_frame.cols / 4, pre_frame.rows / 4), cv::INTER_LINEAR);
 
   if ( previous.empty() ) {
     previous = frame.clone();
@@ -25,34 +25,8 @@ cv::Mat DVR::tick()
   diff = diff_image(frame, previous);
   bool movement = detect_movement(diff);
   if ( movement ) {
-    classifier_mutex.lock();
-    classifier_q.push_back(frame);
-    classifier_mutex.unlock();
+    bool detected = classifier.detect_person(frame);
   }
-  // if ( movement && classifier.detect_person(frame) ) {
-  //   std::cout << "person detected\n";
-  // }
-  // else {
-  //   std::cout << "no person\n";
-  // }
-
   previous = frame.clone();
   return frame;
-}
-
-void DVR::classify() {
-  while ( 1 ) {
-    if ( !classifier_q.empty() ) {
-      classifier_mutex.lock();
-      bool detected = classifier.detect_person(DVR::classifier_q.back());
-      DVR::classifier_q.pop_back();
-      classifier_mutex.unlock();
-      if ( detected ) {
-        std::cout << "person detected\n";
-      }
-      else {
-        std::cout << "no person\n";
-      }
-    }
-  }
 }
