@@ -45,5 +45,8 @@ void Capture::work()
         if ( cap->grab() ) {
             newFrame = true;
         }
+        if ( !cap->isOpened() ) {
+            std::cout << "!!!!!!";
+        }
     }
 }
