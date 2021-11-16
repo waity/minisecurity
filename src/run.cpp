@@ -32,8 +32,9 @@ int main(int argc, char* argv[]) {
       frame = resized_down;
     }
 
-    if ( DEBUG )
+    if ( DEBUG ) {
       imshow("Frame", frame);
+    }
 
     char c=(char)cv::waitKey(25);
     if(c==27)
