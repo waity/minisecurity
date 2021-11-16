@@ -44,6 +44,10 @@ void Capture::work()
     while (1) {
         if ( cap->grab() ) {
             newFrame = true;
+            if ( !cap->isOpened() ) {
+                delete cap;
+                cap = new VideoCapture(name);
+            }
         }
     }
 }
