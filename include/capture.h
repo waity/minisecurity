@@ -4,13 +4,15 @@
 #include <queue>
 #include <thread>
 #include "opencv2/opencv.hpp"
+#include <mutex>
 
 class Capture {
   private:
     std::string name;
     cv::VideoCapture* cap;
     std::thread worker;
-    bool newFrame;
+    std::mutex lock;
+    std::atomic<bool> newFrame;
   public:
     Capture(std::string);
     cv::Mat getFrame();

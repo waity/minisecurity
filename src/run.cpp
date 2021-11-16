@@ -4,6 +4,8 @@
 #include "capture.h"
 #include "dvr.h"
 #include "classifier.h"
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -30,6 +32,7 @@ int main(int argc, char* argv[]) {
   }
 	
   while (1) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     cv::Mat frame = dvr.tick();
     if ( frame.empty() ) {
       continue;

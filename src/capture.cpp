@@ -1,6 +1,8 @@
 #include "capture.h"
 #include <thread>
 #include "opencv2/opencv.hpp"
+#include <chrono>
+#include <thread>
 
 using namespace std;
 using namespace cv;
@@ -20,12 +22,20 @@ Capture::Capture(std::string _name)
 Mat Capture::getFrame()
 {
     Mat mat;
-    if ( !newFrame ) {
-        return mat;
-    }
+    // if ( !newFrame ) {
+    //     std::cout << "newFrame; false\n" << std::endl;
+    //     return mat;
+    // }
 
+    
+    lock.lock();
     cap->retrieve(mat);
-    newFrame = false;
+    if ( mat.empty() ) {
+        delete cap;
+        cap = new VideoCapture(name);
+    }
+    lock.unlock();
+    // newFrame = false;
     return mat;
 }
 
@@ -42,8 +52,11 @@ void Capture::release()
 void Capture::work()
 {
     while (1) {
+        lock.lock();
         if ( cap->grab() ) {
             newFrame = true;
         }
+        lock.unlock();    
+        std::this_thread::sleep_for(std::chrono::milliseconds(33));
     }
 }

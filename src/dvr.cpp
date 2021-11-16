@@ -12,7 +12,7 @@ cv::Mat DVR::tick()
   cv::Mat diff, pre_frame;
   pre_frame = c->getFrame();
   if ( pre_frame.empty() ) {
-    return pre_frame;
+    return frame;
   }
 
   cv::resize(pre_frame, frame, cv::Size(pre_frame.cols / 4, pre_frame.rows / 4), cv::INTER_LINEAR);
