@@ -13,7 +13,7 @@ most recent frame.
 */
 Capture::Capture(std::string _name)
 {
-    newFrame = false;
+    std::atomic<bool> newFrame(false);
     name = _name;
     cap = new VideoCapture(name);
     worker = std::thread{&Capture::work, this};
