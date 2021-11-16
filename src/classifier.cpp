@@ -31,11 +31,11 @@ bool Classifier::detect_person(cv::Mat in)
   std::vector<int> indices[num_classes];
   std::vector<float> scores[num_classes];
 
-  for (auto& output : detections) {
-    const auto detections = output.rows;
+  for (cv::Mat& output : detections) {
+    const int detections = output.rows;
     for (int i = 0; i < detections; i++) {
       for (int c = 0; c < num_classes; c++) {
-          auto confidence = *output.ptr<float>(i, 5 + c);
+          int confidence = *output.ptr<float>(i, 5 + c);
           if ( confidence >= confidence_threshold && class_names[c] == "person" ) {
             return true;
           }

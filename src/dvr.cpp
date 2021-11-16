@@ -29,7 +29,6 @@ cv::Mat DVR::tick()
     std::cout << "no person\n";
   }
 
-  previous;
   previous = frame.clone();
   return frame;
 }

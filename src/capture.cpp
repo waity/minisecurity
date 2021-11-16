@@ -23,6 +23,7 @@ Mat Capture::getFrame()
     if ( !newFrame ) {
         return mat;
     }
+    cout << "status: " << cap->isOpened() << "\n";
 
     cap->retrieve(mat);
     newFrame = false;
