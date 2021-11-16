@@ -7,6 +7,7 @@
 #include "capture.h"
 #include "classifier.h"
 #include <thread>
+#include <mutex>
 
 class DVR {
   private:
@@ -14,6 +15,7 @@ class DVR {
     float WAIT_TIME = 1 / NUM_THREADS;
     Capture* c;
     std::thread classifier_thread;
+    std::mutex classifier_mutex;
     std::vector<std::thread> threads;
     std::vector<cv::Mat> frames;
     std::vector<cv::Mat> classifier_q;

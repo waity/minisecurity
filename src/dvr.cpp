@@ -25,7 +25,9 @@ cv::Mat DVR::tick()
   diff = diff_image(frame, previous);
   bool movement = detect_movement(diff);
   if ( movement ) {
+    classifier_mutex.lock();
     classifier_q.push_back(frame);
+    classifier_mutex.unlock();
   }
   // if ( movement && classifier.detect_person(frame) ) {
   //   std::cout << "person detected\n";
@@ -41,8 +43,10 @@ cv::Mat DVR::tick()
 void DVR::classify() {
   while ( 1 ) {
     if ( !classifier_q.empty() ) {
+      classifier_mutex.lock();
       bool detected = classifier.detect_person(DVR::classifier_q.back());
       DVR::classifier_q.pop_back();
+      classifier_mutex.unlock();
       if ( detected ) {
         std::cout << "person detected\n";
       }
