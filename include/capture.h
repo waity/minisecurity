@@ -5,6 +5,7 @@
 #include <thread>
 #include "opencv2/opencv.hpp"
 #include <mutex>
+#include <atomic>
 
 class Capture {
   private:
