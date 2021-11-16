@@ -1,67 +1,47 @@
 #include <iostream>
 #include <cstring>
-#include <time.h>
 #include "capture.h"
-#include "process.h"
+#include "dvr.h"
 #include "classifier.h"
 
 using namespace std;
 
-bool DEBUG = false;
+bool DEBUG = true;
 bool PI = false;
 
 int main(int argc, char* argv[]) {
   Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
-  Classifier classifier;
+  DVR dvr(&capture);
 
   if ( !capture.isOpened() ) {
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
-
-  cv::Mat previous;
 	
   while (1) {
-    cv::Mat frame, diff;
-    frame = capture.getFrame();
+    cv::Mat frame = dvr.tick();
     if ( frame.empty() ) {
       continue;
     }
 
-    if ( previous.empty() ) {
-      previous = frame.clone();
-      continue;
-    }
-
-    diff = diff_image(frame, previous);
-    bool movement = detect_movement(diff);
-    if ( movement && classifier.detect_person(frame) ) {
-      std::cout << "person detected\n";
-    }
-    else {
-      std::cout << "no person\n";
-    }
-
-    previous = frame.clone();
-
-    if ( PI ) {
+    if ( DEBUG && PI ) {
       int down_width = 300;
       int down_height = 200;
-      Mat resized_down;
-      cv::resize(frame, resized_down, Size(down_width, down_height), INTER_LINEAR);
+      cv::Mat resized_down;
+      cv::resize(frame, resized_down, cv::Size(down_width, down_height), cv::INTER_LINEAR);
       frame = resized_down;
     }
 
-    if (DEBUG)
-      imshow( "Frame", frame );
+    if ( DEBUG )
+      imshow("Frame", frame);
 
-    char c=(char)waitKey(25);
+    char c=(char)cv::waitKey(25);
     if(c==27)
       break;
   }
 
   capture.release();
-  destroyAllWindows();
+  cv::destroyAllWindows();
 	
   return 0;
 }
