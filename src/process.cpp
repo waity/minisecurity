@@ -26,11 +26,11 @@ cv::Mat diff_image(cv::Mat in1, cv::Mat in2) {
   return dilated;
 }
 
-bool detect_movement(cv::Mat in) {
+bool detect_movement(cv::Mat in, int scale) {
   std::vector<std::vector<cv::Point>> contours, filtered;
   std::vector<cv::Vec4i> hierarchy;
 
-  double min_size = 1000;
+  double min_size = 1000 / scale;
   
   cv::findContours(in, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
   for ( int i = 0; i < contours.size(); i++ ) {

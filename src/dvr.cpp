@@ -23,7 +23,7 @@ cv::Mat DVR::tick()
   }
 
   diff = diff_image(frame, previous);
-  bool movement = detect_movement(diff);
+  bool movement = detect_movement(diff, 4);
   if ( movement ) {
     bool detected = classifier.detect_person(frame);
   }
