@@ -26,6 +26,7 @@ cv::Mat DVR::tick()
   bool movement = detect_movement(diff);
   if ( movement ) {
     bool detected = classifier.detect_person(frame);
+    std::cout << "!!" << detected << "!!\n";
   }
   previous = frame.clone();
   return frame;
