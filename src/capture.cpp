@@ -16,6 +16,9 @@ Capture::Capture(std::string _name)
     std::atomic<bool> newFrame(false);
     name = _name;
     cap = new VideoCapture(name);
+    cap->set(CAP_PROP_BUFFERSIZE, 3);
+    cap->set(CAP_PROP_FRAME_WIDTH, 320);
+    cap->set(CAP_PROP_FRAME_HEIGHT, 180);
     worker = std::thread{&Capture::work, this};
 }
 
@@ -29,9 +32,11 @@ Mat Capture::getFrame()
     lock.lock();
     cap->retrieve(mat);
     if ( mat.empty() ) {
+        std::cout << "resetting\n" << std::endl;
         cap->release();
         delete cap;
         cap = new VideoCapture(name);
+        cap->set(CAP_PROP_BUFFERSIZE, 3);
     }
     lock.unlock();
     return mat;

@@ -9,7 +9,7 @@ DVR::DVR(Capture *_c)
 
 cv::Mat DVR::tick() 
 {
-  cv::Mat diff, pre_frame, debug;
+  cv::Mat diff, pre_frame, view;
   pre_frame = c->getFrame();
   if ( pre_frame.empty() ) {
     return frame;
@@ -22,16 +22,16 @@ cv::Mat DVR::tick()
     return diff;
   }
 
-  debug = frame;
+  view = frame;
 
   diff = diff_image(frame, previous);
   bool movement = detect_movement(diff, 4);
   if ( movement ) {
     // classifier.detect(cv::Mat in);
-    // debug = classifier.get_objects(frame);
+    view = classifier.get_objects(frame);
     // std::cout << "Person!" << std::endl;
   }
   previous = frame.clone();
   // return frame;
-  return diff;
+  return view;
 }
