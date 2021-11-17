@@ -28,10 +28,10 @@ cv::Mat DVR::tick()
   bool movement = detect_movement(diff, 4);
   if ( movement ) {
     // classifier.detect(cv::Mat in);
-    debug = classifier.get_objects(frame);
+    // debug = classifier.get_objects(frame);
     // std::cout << "Person!" << std::endl;
   }
   previous = frame.clone();
   // return frame;
-  return debug;
+  return diff;
 }

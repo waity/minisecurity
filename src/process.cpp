@@ -13,10 +13,10 @@ cv::Mat gray_and_blur(cv::Mat in) {
 }
 
 cv::Mat diff_image(cv::Mat in1, cv::Mat in2) {
-  cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(9,9));
+  cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3,3));
 
   cv::Mat gray1, gray2, diff, threshold, eroded, dilated;
-  int sensitivity = 10;
+  int sensitivity = 4;
   gray1 = gray_and_blur(in1);
   gray2 = gray_and_blur(in2);
   cv::absdiff(gray1, gray2, diff);

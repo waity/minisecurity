@@ -38,10 +38,10 @@ int main(int argc, char* argv[]) {
     }
 
     if ( DEBUG && PI ) {
-      int down_width = 300;
-      int down_height = 200;
+      int pisize_width = 300;
+      int pisize_height = 200;
       cv::Mat resized_down;
-      cv::resize(frame, resized_down, cv::Size(down_width, down_height), cv::INTER_LINEAR);
+      cv::resize(frame, resized_down, cv::Size(pisize_width, pisize_height), cv::INTER_LINEAR);
       frame = resized_down;
     }
 
