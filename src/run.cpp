@@ -13,6 +13,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
   bool DEBUG = false;
   bool PI = false;
+  int FPS = 5;
 
   for ( int i = 1; i < argc; i++ ) {
     if ( std::strcmp(argv[i], "-debug") == 0 ) {
@@ -48,8 +49,7 @@ int main(int argc, char* argv[]) {
     if ( DEBUG ) {
       imshow("Frame", frame);
     }
-
-    char c=(char)cv::waitKey(30);
+    char c=(char)cv::waitKey((1.0/FPS)*1000);
     if(c==27)
       break;
   }

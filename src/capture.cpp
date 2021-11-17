@@ -24,13 +24,14 @@ Capture::Capture(std::string _name)
 
 Mat Capture::getFrame()
 {
-    Mat mat;
+    Mat mat, copy;
     if ( !newFrame ) {
         return mat;
     }
 
     lock.lock();
     cap->retrieve(mat);
+    copy = mat.clone();
     if ( mat.empty() ) {
         std::cout << "resetting\n" << std::endl;
         cap->release();
@@ -39,7 +40,7 @@ Mat Capture::getFrame()
         cap->set(CAP_PROP_BUFFERSIZE, 3);
     }
     lock.unlock();
-    return mat;
+    return copy;
 }
 
 bool Capture::isOpened()
