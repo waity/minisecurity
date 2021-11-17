@@ -11,10 +11,7 @@
 
 class DVR {
   private:
-    int NUM_THREADS = 3;
-    float WAIT_TIME = 1 / NUM_THREADS;
     Capture* c;
-    std::vector<std::thread> threads;
     std::vector<cv::Mat> frames;
     cv::Mat previous;
     cv::Mat frame;

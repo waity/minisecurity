@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  Capture capture("rtsp://admin:123456@192.168.1.101:554/h264");
+  Capture capture("rtsp://admin:123456@192.168.1.101:31554/h264");
   DVR dvr(&capture);
 
   if ( !capture.isOpened() ) {
@@ -31,8 +31,7 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 	
-  while (1) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  while ( 1 ) {
     cv::Mat frame = dvr.tick();
     if ( frame.empty() ) {
       continue;
@@ -50,7 +49,7 @@ int main(int argc, char* argv[]) {
       imshow("Frame", frame);
     }
 
-    char c=(char)cv::waitKey(25);
+    char c=(char)cv::waitKey(30);
     if(c==27)
       break;
   }

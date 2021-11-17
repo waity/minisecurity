@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstring>
 #include "opencv2/opencv.hpp"
+#include <thread>
 
 class Classifier {
   private:
@@ -12,6 +13,7 @@ class Classifier {
   public:
     Classifier();
     bool detect_person(cv::Mat in);
+    cv::Mat get_objects(cv::Mat in);
 };
 
 #endif
