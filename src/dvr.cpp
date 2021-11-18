@@ -28,7 +28,7 @@ cv::Mat DVR::tick()
   bool movement = detect_movement(diff, 4);
   std::cout << movement << "\n";
   if ( movement ) {
-    view = classifier.get_objects(frame);
+    // view = classifier.get_objects(frame);
   }
   previous = frame.clone();
   return view;
