@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  Capture capture("rtsp://admin:123456@192.168.1.101:31554/h264");
+  Capture capture("rtsp://admin:123456@192.168.1.101/554/h264");
   DVR dvr(&capture);
 
   if ( !capture.isOpened() ) {
