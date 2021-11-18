@@ -17,8 +17,6 @@ Capture::Capture(std::string _name)
     name = _name;
     cap = new VideoCapture(name);
     cap->set(CAP_PROP_BUFFERSIZE, 3);
-    cap->set(CAP_PROP_FRAME_WIDTH, 320);
-    cap->set(CAP_PROP_FRAME_HEIGHT, 180);
     worker = std::thread{&Capture::work, this};
 }
 
@@ -38,8 +36,6 @@ Mat Capture::getFrame()
         delete cap;
         cap = new VideoCapture(name);
         cap->set(CAP_PROP_BUFFERSIZE, 3);
-        cap->set(CAP_PROP_FRAME_WIDTH, 320);
-        cap->set(CAP_PROP_FRAME_HEIGHT, 180);
     }
     lock.unlock();
     return copy;

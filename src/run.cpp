@@ -25,6 +25,10 @@ int main(int argc, char* argv[]) {
   }
 
   Capture capture("rtsp://admin:123456@192.168.1.101/554/h264");
+  // Capture capture("test.mp4");
+
+  // std::vector<cv::Mat> frames;
+
   DVR dvr(&capture);
 
   if ( !capture.isOpened() ) {
@@ -37,6 +41,8 @@ int main(int argc, char* argv[]) {
     if ( frame.empty() ) {
       continue;
     }
+
+    // frames.push_back(frame.clone());
 
     if ( DEBUG && PI ) {
       int pisize_width = 300;
@@ -54,6 +60,13 @@ int main(int argc, char* argv[]) {
       break;
   }
 
+  // for WRITING
+  // cv::Mat front = frames.front();
+  // cv::VideoWriter video("out.mp4", cv::VideoWriter::fourcc('M','P','4','V'), 10, cv::Size(front.cols, front.rows));
+  // for ( cv::Mat frame : frames ) {
+  //   video.write(frame);
+  // }
+  // video.release();
   capture.release();
   cv::destroyAllWindows();
 	
