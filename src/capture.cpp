@@ -34,10 +34,12 @@ Mat Capture::getFrame()
     copy = mat.clone();
     if ( mat.empty() ) {
         std::cout << "resetting\n" << std::endl;
-        // cap->release();
-        // delete cap;
-        // cap = new VideoCapture(name);
-        // cap->set(CAP_PROP_BUFFERSIZE, 3);
+        cap->release();
+        delete cap;
+        cap = new VideoCapture(name);
+        cap->set(CAP_PROP_BUFFERSIZE, 3);
+        cap->set(CAP_PROP_FRAME_WIDTH, 320);
+        cap->set(CAP_PROP_FRAME_HEIGHT, 180);
     }
     lock.unlock();
     return copy;
