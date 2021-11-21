@@ -58,22 +58,31 @@ void Processor::store(cv::Mat frame, cv::Mat previous) {
 }
 
 void Processor::work() {
+  int SCALE = 4;
+
   while ( 1 ) {
-    // std::cout << "worker working...\n";
     lock.lock();
     if ( frames.size() > 0 ) {
-      std::cout << frames.size() << " frames\n";
-      // Frame frame = frames.back();
+      Frame frame = frames.back();
+      cv::Mat diff = diff_image(frame.getFrame(), frame.getPrevious());
+      bool movement = detect_movement(diff, SCALE);
+      std::cout << movement << "\n";
       frames.pop_back();
     }
-    else {
-      std::this_thread::sleep_for(std::chrono::milliseconds(30));
-    }
     lock.unlock();
+    std::this_thread::sleep_for(std::chrono::milliseconds(33));
   }
 }
 
 Frame::Frame(cv::Mat _frame, cv::Mat _previous) {
   frame = _frame.clone();
   previous = _previous.clone();
+}
+
+cv::Mat Frame::getFrame() {
+  return frame;
+}
+
+cv::Mat Frame::getPrevious() {
+  return previous;
 }

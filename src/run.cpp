@@ -3,7 +3,6 @@
 #include <string>
 #include "capture.h"
 #include "dvr.h"
-#include "classifier.h"
 #include <chrono>
 #include <thread>
 
@@ -24,8 +23,8 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  Capture capture("rtsp://admin:123456@192.168.1.101/554/h264");
-  // Capture capture("test.mp4");
+  // Capture capture("rtsp://admin:123456@192.168.1.101/554/h264");
+  Capture capture("test.mp4");
 
   // std::vector<cv::Mat> frames;
 
@@ -53,7 +52,7 @@ int main(int argc, char* argv[]) {
     }
 
     if ( DEBUG ) {
-      imshow("Frame", frame);
+      // imshow("Frame", frame);
     }
     char c=(char)cv::waitKey((1.0/FPS)*1000);
     if(c==27)

@@ -5,9 +5,9 @@
 #include <cstring>
 #include "opencv2/opencv.hpp"
 #include "capture.h"
-#include "classifier.h"
 #include <thread>
 #include <mutex>
+#include "processor.h"
 
 class DVR {
   private:
@@ -15,7 +15,7 @@ class DVR {
     std::vector<cv::Mat> frames;
     cv::Mat previous;
     cv::Mat frame;
-    Classifier classifier;
+    Processor p;
   public:
     DVR(Capture *_c);
     cv::Mat tick();
