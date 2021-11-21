@@ -63,10 +63,13 @@ void Processor::work() {
   while ( 1 ) {
     lock.lock();
     if ( frames.size() > 0 ) {
+      std::cout << "worker thread... frames: " << int(frames.size()) << "\n";
       Frame frame = frames.back();
       cv::Mat diff = diff_image(frame.getFrame(), frame.getPrevious());
       bool movement = detect_movement(diff, SCALE);
-      std::cout << movement << "\n";
+      if ( movement ) {
+        classifier.get_objects(frame.getFrame());
+      }
       frames.pop_back();
     }
     lock.unlock();
