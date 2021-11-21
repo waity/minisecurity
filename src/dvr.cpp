@@ -1,6 +1,6 @@
 #include "dvr.h"
 #include "capture.h"
-#include "process.h"
+#include "processor.h"
 
 DVR::DVR(Capture *_c) 
 {
@@ -9,27 +9,26 @@ DVR::DVR(Capture *_c)
 
 cv::Mat DVR::tick() 
 {
-  cv::Mat diff, pre_frame, view;
-  pre_frame = c->getFrame();
-  if ( pre_frame.empty() ) {
+  int SCALE = 4;
+  cv::Mat diff, full_frame, view;
+
+  full_frame = c->getFrame();
+  if ( full_frame.empty() ) {
     return frame;
   }
 
-  cv::resize(pre_frame, frame, cv::Size(pre_frame.cols / 4, pre_frame.rows / 4), cv::INTER_LINEAR);
+  // cv::resize(full_frame, frame, cv::Size(full_frame.cols / SCALE, full_frame.rows / SCALE), cv::INTER_LINEAR);
+  frame = full_frame;
 
   if ( previous.empty() ) {
     previous = frame.clone();
     return diff;
   }
+  else {
+    p.store(frame, previous);
+  }
 
   view = frame;
-
-  diff = diff_image(frame, previous);
-  bool movement = detect_movement(diff, 4);
-  std::cout << movement << "\n";
-  if ( movement ) {
-    // view = classifier.get_objects(frame);
-  }
   previous = frame.clone();
   return view;
 }
