@@ -98,7 +98,7 @@ cv::Mat Classifier::get_objects(cv::Mat in)
 
         std::ostringstream label_ss;
 
-        std::cout << "classifier: " << class_names[c] << ": " << std::fixed << std::setprecision(2) << scores[c][idx] << "\n";
+        // std::cout << "classifier: " << class_names[c] << ": " << std::fixed << std::setprecision(2) << scores[c][idx] << "\n";
         label_ss << class_names[c] << ": " << std::fixed << std::setprecision(2) << scores[c][idx];
         auto label = label_ss.str();
         

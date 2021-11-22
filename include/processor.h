@@ -23,6 +23,7 @@ class Processor {
     std::thread worker;
     std::mutex lock;
     std::vector<Frame> to_process;
+    cv::Mat last_processed;
     cv::Mat gray_and_blur(cv::Mat in);
     cv::Mat diff_image(cv::Mat in1, cv::Mat in2);
     bool detect_movement(cv::Mat in, int scale);
@@ -31,6 +32,7 @@ class Processor {
   public:
     Processor();
     void store(cv::Mat frame, cv::Mat previous);
+    cv::Mat retrieve();
 };
 
 #endif
