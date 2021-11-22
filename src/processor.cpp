@@ -67,21 +67,33 @@ void Processor::work() {
 
   while ( 1 ) {
     lock.lock();
-    if ( to_process.size() > 0 ) {
-      std::cout << "worker thread... frames: " << int(to_process.size()) << "\n";
-      Frame frame = to_process.back();
-      cv::Mat processed = frame.getFrame();
-      cv::Mat diff = diff_image(frame.getFrame(), frame.getPrevious());
-      bool movement = detect_movement(diff, SCALE);
-      if ( movement ) {
-        processed = classifier.get_objects(frame.getFrame());
-      }
-      last_processed = processed;
-      to_process.pop_back();
+    int count = to_process.size();
+    if ( count <= 0 ) {
+      lock.unlock();
+      int FPS = 20;
+      std::this_thread::sleep_for(std::chrono::milliseconds(int((1.0/FPS)*1000)));
+      continue;
     }
+      
+    cv::Mat frame, previous, processed;
+
+    std::cout << "worker thread... frames: " << int(to_process.size()) << "\n";
+    Frame frame_obj = to_process.back();
+
+    frame = frame_obj.getFrame();
+    previous = frame_obj.getPrevious();
+    to_process.pop_back();
+
     lock.unlock();
-    int FPS = 20;
-    std::this_thread::sleep_for(std::chrono::milliseconds(int((1.0/FPS)*1000)));
+
+    cv::Mat diff = diff_image(frame, previous);
+    bool movement = detect_movement(diff, SCALE);
+    if ( movement ) {
+      last_processed = classifier.get_objects(frame);
+    }
+    else {
+      last_processed = frame;
+    }
   }
 }
 
