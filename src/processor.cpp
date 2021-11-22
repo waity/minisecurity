@@ -54,7 +54,7 @@ bool Processor::detect_movement(cv::Mat in, int scale) {
 void Processor::store(cv::Mat frame, cv::Mat previous) {
   lock.lock();
   std::cout << "Storing...\n" << std::endl;
-  frames.push_back(Frame(frame, previous));
+  to_process.push_back(Frame(frame, previous));
   lock.unlock();
 }
 
@@ -63,17 +63,15 @@ void Processor::work() {
 
   while ( 1 ) {
     lock.lock();
-    if ( frames.size() > 0 ) {
-      while ( frames.size() > 0 ) {
-        std::cout << "worker thread... frames: " << int(frames.size()) << "\n";
-        Frame frame = frames.back();
-        cv::Mat diff = diff_image(frame.getFrame(), frame.getPrevious());
-        bool movement = detect_movement(diff, SCALE);
-        if ( movement ) {
-          classifier.get_objects(frame.getFrame());
-        }
-        frames.pop_back();
+    if ( to_process.size() > 0 ) {
+      std::cout << "worker thread... frames: " << int(to_process.size()) << "\n";
+      Frame frame = to_process.back();
+      cv::Mat diff = diff_image(frame.getFrame(), frame.getPrevious());
+      bool movement = detect_movement(diff, SCALE);
+      if ( movement ) {
+        classifier.get_objects(frame.getFrame());
       }
+      to_process.pop_back();
     }
     lock.unlock();
     std::this_thread::sleep_for(std::chrono::milliseconds(33));

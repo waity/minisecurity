@@ -11,13 +11,13 @@
 
 class DVR {
   private:
-    Capture* c;
+    Capture* capture;
     std::vector<cv::Mat> frames;
     cv::Mat previous;
     cv::Mat frame;
     Processor p;
   public:
-    DVR(Capture *_c);
+    DVR(Capture *_capture);
     cv::Mat tick();
 };
 
