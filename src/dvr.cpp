@@ -27,8 +27,8 @@ cv::Mat DVR::tick()
     return view;
   }
   else {
-    previous = resized_frame.clone();
     p.store(resized_frame, previous);
+    previous = resized_frame.clone();
     cv::Mat temp = p.retrieve();
     if ( !temp.empty() ) {
       view = temp;

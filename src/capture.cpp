@@ -59,6 +59,7 @@ void Capture::work()
             newFrame = true;
         }
         lock.unlock();
-        std::this_thread::sleep_for(std::chrono::milliseconds(33));
+        int FPS = 20;
+        std::this_thread::sleep_for(std::chrono::milliseconds(int((1.0/FPS)*1000)));
     }
 }

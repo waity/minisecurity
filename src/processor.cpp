@@ -39,7 +39,7 @@ bool Processor::detect_movement(cv::Mat in, int scale) {
   std::vector<std::vector<cv::Point>> contours, filtered;
   std::vector<cv::Vec4i> hierarchy;
 
-  double min_size = 1000 / scale;
+  double min_size = 25000;
   
   cv::findContours(in, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
   for ( int i = 0; i < contours.size(); i++ ) {
@@ -73,15 +73,15 @@ void Processor::work() {
       cv::Mat processed = frame.getFrame();
       cv::Mat diff = diff_image(frame.getFrame(), frame.getPrevious());
       bool movement = detect_movement(diff, SCALE);
-      // if ( movement ) {
-        // std::cout << "????";
+      if ( movement ) {
         processed = classifier.get_objects(frame.getFrame());
-      // }
+      }
       last_processed = processed;
       to_process.pop_back();
     }
     lock.unlock();
-    std::this_thread::sleep_for(std::chrono::milliseconds(33));
+    int FPS = 20;
+    std::this_thread::sleep_for(std::chrono::milliseconds(int((1.0/FPS)*1000)));
   }
 }
 
