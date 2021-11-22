@@ -53,6 +53,7 @@ bool Processor::detect_movement(cv::Mat in, int scale) {
 
 void Processor::store(cv::Mat frame, cv::Mat previous) {
   lock.lock();
+  std::cout << "Storing...\n" << std::endl;
   frames.push_back(Frame(frame, previous));
   lock.unlock();
 }
