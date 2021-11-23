@@ -23,22 +23,20 @@ Capture::Capture(std::string _name)
 Mat Capture::getFrame()
 {
     Mat mat, copy;
+    lock.lock();
     if ( !newFrame ) {
         return mat;
     }
-
-    lock.lock();
     cap->retrieve(mat);
-    copy = mat.clone();
-    if ( mat.empty() ) {
-        std::cout << "resetting\n" << std::endl;
-        cap->release();
-        delete cap;
-        cap = new VideoCapture(name);
-        cap->set(CAP_PROP_BUFFERSIZE, 3);
-    }
     lock.unlock();
-    return copy;
+    if ( mat.empty() ) {
+        // std::cout << "resetting\n" << std::endl;
+        // cap->release();
+        // delete cap;
+        // cap = new VideoCapture(name);
+        // cap->set(CAP_PROP_BUFFERSIZE, 3);
+    }
+    return mat;
 }
 
 bool Capture::isOpened()
@@ -59,7 +57,7 @@ void Capture::work()
             newFrame = true;
         }
         lock.unlock();
-        int FPS = 20;
+        int FPS = 25;
         std::this_thread::sleep_for(std::chrono::milliseconds(int((1.0/FPS)*1000)));
     }
 }

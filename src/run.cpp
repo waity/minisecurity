@@ -12,7 +12,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
   bool DEBUG = false;
   bool PI = false;
-  int FPS = 20;
+  int FPS = 5;
 
   for ( int i = 1; i < argc; i++ ) {
     if ( std::strcmp(argv[i], "-debug") == 0 ) {

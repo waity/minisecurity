@@ -70,7 +70,7 @@ void Processor::work() {
     int count = to_process.size();
     if ( count <= 0 ) {
       lock.unlock();
-      int FPS = 20;
+      int FPS = 5;
       std::this_thread::sleep_for(std::chrono::milliseconds(int((1.0/FPS)*1000)));
       continue;
     }
