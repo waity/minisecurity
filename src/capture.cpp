@@ -30,11 +30,11 @@ Mat Capture::getFrame()
     cap->retrieve(mat);
     lock.unlock();
     if ( mat.empty() ) {
-        // std::cout << "resetting\n" << std::endl;
-        // cap->release();
-        // delete cap;
-        // cap = new VideoCapture(name);
-        // cap->set(CAP_PROP_BUFFERSIZE, 3);
+        std::cout << "resetting\n" << std::endl;
+        cap->release();
+        delete cap;
+        cap = new VideoCapture(name);
+        cap->set(CAP_PROP_BUFFERSIZE, 3);
     }
     return mat;
 }

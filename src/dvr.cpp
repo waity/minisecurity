@@ -35,5 +35,5 @@ cv::Mat DVR::tick()
     }
   }
 
-  return view;
+  return frame;
 }
