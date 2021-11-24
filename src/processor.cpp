@@ -77,7 +77,7 @@ void Processor::work() {
       
     cv::Mat frame, previous, processed;
 
-    std::cout << "worker thread... frames: " << int(to_process.size()) << "\n";
+    // std::cout << "worker thread... frames: " << int(to_process.size()) << "\n";
     Frame frame_obj = to_process.back();
 
     frame = frame_obj.getFrame();
@@ -89,6 +89,7 @@ void Processor::work() {
     cv::Mat diff = diff_image(frame, previous);
     bool movement = detect_movement(diff, SCALE);
     if ( movement ) {
+      std::cout << "MOVEMENT";
       last_processed = classifier.get_objects(frame);
     }
     else {
