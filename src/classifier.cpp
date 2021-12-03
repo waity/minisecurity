@@ -12,7 +12,8 @@ const auto NUM_COLORS = sizeof(colors)/sizeof(colors[0]);
 
 Classifier::Classifier() {
   net = cv::dnn::readNetFromDarknet("yolo/yolov3-tiny.cfg", "yolo/yolov3-tiny.weights");
-
+  net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+  net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
   std::ifstream ifs(std::string("yolo/coco.names").c_str());
   std::string line;
   while ( std::getline(ifs, line) ) {

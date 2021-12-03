@@ -2,7 +2,7 @@
 sudo apt update && sudo apt install -y cmake g++ wget unzip
 # Download and unpack sources
 if [ ! -f opencv.zip ]; then
-  swget -O opencv.zip https://github.com/opencv/opencv/archive/master.zip
+  wget -O opencv.zip https://github.com/opencv/opencv/archive/master.zip
 fi
 unzip opencv.zip
 # Create build directory
