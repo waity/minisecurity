@@ -8,6 +8,7 @@
 
 using namespace std;
 
+int FPS = 5;
 int SCREEN_WIDTH = 1920;
 int SCREEN_HEIGHT = 1080;
 std::string WINDOW_NAME = "Display";
@@ -15,7 +16,6 @@ std::string WINDOW_NAME = "Display";
 int main(int argc, char* argv[]) {
   bool DEBUG = false;
   bool PI = false;
-  int FPS = 5;
 
   for ( int i = 1; i < argc; i++ ) {
     if ( std::strcmp(argv[i], "-debug") == 0 ) {
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]) {
     }
 
     if ( DEBUG ) {
-      cv::hconcat(frame, frame.clone(), frame);
+      // cv::hconcat(frame, frame.clone(), frame);
       cv::imshow(WINDOW_NAME, frame);
     }
     char c=(char)cv::waitKey((1.0/FPS)*1000);

@@ -9,6 +9,7 @@
 
 class Capture {
   private:
+    int FPS = 10;
     std::string name;
     cv::VideoCapture* cap;
     std::thread worker;
