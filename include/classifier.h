@@ -12,7 +12,6 @@ class Classifier {
     std::vector<std::string> output_names;
   public:
     Classifier();
-    bool detect_person(cv::Mat in);
     cv::Mat get_objects(cv::Mat in);
 };
 
