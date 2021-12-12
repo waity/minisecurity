@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int FPS = 5;
+const int FPS = 5;
 int SCREEN_WIDTH = 1920;
 int SCREEN_HEIGHT = 1080;
 std::string WINDOW_NAME = "Display";

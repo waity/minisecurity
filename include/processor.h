@@ -20,7 +20,7 @@ class Frame {
 
 class Processor {
   private:
-    int FPS = 5;
+    const int FPS = 5;
     std::thread worker;
     std::mutex lock;
     std::vector<Frame> to_process;
