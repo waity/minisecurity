@@ -15,9 +15,10 @@ class DVR {
     std::vector<cv::Mat> frames;
     cv::Mat previous;
     cv::Mat frame;
+    bool detect;
     Processor p;
   public:
-    DVR(Capture *_capture);
+    DVR(Capture *_capture, bool _detect);
     cv::Mat tick();
 };
 

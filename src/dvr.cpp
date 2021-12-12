@@ -2,8 +2,9 @@
 #include "capture.h"
 #include "processor.h"
 
-DVR::DVR(Capture *_capture) 
+DVR::DVR(Capture *_capture, bool _detect) 
 {
+  detect = _detect;
   capture = _capture;
 }
 
@@ -16,6 +17,10 @@ cv::Mat DVR::tick()
   frame = capture->getFrame();
   if ( frame.empty() ) {
     return view;
+  }
+
+  if ( !detect ) {
+    return frame;
   }
 
   view = frame;

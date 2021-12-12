@@ -5,8 +5,10 @@ bin/
 CMakeFiles
 yolo
 build
-opencv-master
+opencv-master/
+opencv_contrib-master/
 
+opencv_contrib.zip
 opencv.zip
 run
 cmake_install.cmake

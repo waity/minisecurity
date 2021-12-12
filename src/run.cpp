@@ -8,6 +8,9 @@
 
 using namespace std;
 
+int SCREEN_WIDTH = 1920;
+int SCREEN_HEIGHT = 1080;
+std::string WINDOW_NAME = "Display";
 
 int main(int argc, char* argv[]) {
   bool DEBUG = false;
@@ -23,21 +26,32 @@ int main(int argc, char* argv[]) {
     }
   }
 
+  cv::namedWindow(WINDOW_NAME);
+  cv::resizeWindow(WINDOW_NAME, SCREEN_WIDTH, SCREEN_HEIGHT);
+
   Capture capture("rtsp://admin:123456@192.168.1.104/554/h264");
+  // Capture capture2("rtsp://admin:123456@192.168.1.104/554/h264");
   // Capture capture("test.mp4");
   // Capture capture(0);
 
   // std::vector<cv::Mat> frames;
 
-  DVR dvr(&capture);
+  DVR dvr(&capture, false);
+  // DVR dvr2(&capture2);
 
   if ( !capture.isOpened() ) {
     cout << "Error opening video stream or file" << endl;
     return -1;
   }
+
+  // if ( !capture2.isOpened() ) {
+  //   cout << "Error opening video stream or file" << endl;
+  //   return -1;
+  // }
 	
   while ( 1 ) {
     cv::Mat frame = dvr.tick();
+    // cv::Mat frame2 = dvr2.tick();
     if ( frame.empty() ) {
       continue;
     }
@@ -51,7 +65,8 @@ int main(int argc, char* argv[]) {
     }
 
     if ( DEBUG ) {
-      imshow("Frame", frame);
+      cv::hconcat(frame, frame.clone(), frame);
+      cv::imshow(WINDOW_NAME, frame);
     }
     char c=(char)cv::waitKey((1.0/FPS)*1000);
     
