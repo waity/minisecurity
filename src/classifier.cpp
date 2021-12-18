@@ -32,7 +32,7 @@ Classifier::Classifier()
   output_names = net.getUnconnectedOutLayersNames();
 }
 
-cv::Mat Classifier::get_objects(cv::Mat in) 
+ProcessedFrame Classifier::get_objects(cv::Mat in) 
 {
   int num_classes = output_names.size();
   cv::Mat resized;
@@ -87,5 +87,5 @@ cv::Mat Classifier::get_objects(cv::Mat in)
     }
   }
 
-  return in;
+  return ProcessedFrame(in, true);
 }

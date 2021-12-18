@@ -9,7 +9,7 @@
 
 class Capture {
   private:
-    const int FPS = 10;
+    const int FPS = 30;
     std::string name;
     cv::VideoCapture* cap;
     std::thread worker;

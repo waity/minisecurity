@@ -9,7 +9,8 @@ Processor::Processor()
   worker = std::thread{&Processor::work, this};
 }
 
-cv::Mat Processor::gray_and_blur(cv::Mat in) {
+cv::Mat Processor::gray_and_blur(cv::Mat in) 
+{
   cv::Mat gray, blur;
 
   cv::Size size = cv::Size(99,99);
@@ -20,7 +21,8 @@ cv::Mat Processor::gray_and_blur(cv::Mat in) {
   return blur;
 }
 
-cv::Mat Processor::diff_image(cv::Mat in1, cv::Mat in2) {
+cv::Mat Processor::diff_image(cv::Mat in1, cv::Mat in2) 
+{
   cv::Mat gray1, gray2, diff, threshold, eroded, dilated;
 
   cv::Mat element = cv::getStructuringElement(cv::MORPH_CROSS, cv::Size(3,3));
@@ -35,7 +37,8 @@ cv::Mat Processor::diff_image(cv::Mat in1, cv::Mat in2) {
   return dilated;
 }
 
-bool Processor::detect_movement(cv::Mat in, int scale) {
+bool Processor::detect_movement(cv::Mat in, int scale) 
+{
   std::vector<std::vector<cv::Point>> contours, filtered;
   std::vector<cv::Vec4i> hierarchy;
 
@@ -51,18 +54,21 @@ bool Processor::detect_movement(cv::Mat in, int scale) {
   return filtered.size() > 0;
 }
 
-void Processor::store(cv::Mat frame, cv::Mat previous) {
+void Processor::store(cv::Mat frame, cv::Mat previous, cv::Mat average) 
+{
   lock.lock();
   // std::cout << "Storing...\n" << std::endl;
-  to_process.push_back(Frame(frame, previous));
+  to_process.push_back(Frame(frame, previous, average));
   lock.unlock();
 }
 
-cv::Mat Processor::retrieve() {
+ProcessedFrame Processor::retrieve() 
+{
   return last_processed;
 }
 
-void Processor::work() {
+void Processor::work() 
+{
   int SCALE = 4;
 
   while ( 1 ) {
@@ -74,36 +80,50 @@ void Processor::work() {
       continue;
     }
       
-    cv::Mat frame, previous, processed;
+    cv::Mat frame, previous, average, processed;
     
     Frame frame_obj = to_process.back();
 
     frame = frame_obj.getFrame();
     previous = frame_obj.getPrevious();
+    average = frame_obj.getAverage();
     to_process.pop_back();
 
     lock.unlock();
 
-    cv::Mat diff = diff_image(frame, previous);
+    if ( frame.empty() || previous.empty() || average.empty() ) {
+      continue;
+    }
+
+    cv::Mat diff = diff_image(frame, average);
     bool movement = detect_movement(diff, SCALE);
     if ( movement ) {
       last_processed = classifier.get_objects(frame);
     }
     else {
-      last_processed = frame;
+      last_processed = ProcessedFrame(frame, false);
     }
   }
 }
 
-Frame::Frame(cv::Mat _frame, cv::Mat _previous) {
+Frame::Frame(cv::Mat _frame, cv::Mat _previous, cv::Mat _average) 
+{
   frame = _frame.clone();
   previous = _previous.clone();
+  average = _average.clone();
 }
 
-cv::Mat Frame::getFrame() {
+cv::Mat Frame::getFrame() 
+{
   return frame;
 }
 
-cv::Mat Frame::getPrevious() {
+cv::Mat Frame::getPrevious() 
+{
   return previous;
+}
+
+cv::Mat Frame::getAverage()
+{
+  return average;
 }
